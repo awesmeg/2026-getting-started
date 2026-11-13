@@ -18,25 +18,25 @@
 
 
 
-
-
-
-
-
-
     
   </div>
    <label for="minRangeAnswer">Enter a min range</label>
-   <input type="text" name="range-settings-min" id="minRange">
-   <button id="btnMinRange"> Confirm </button> 
+   <input type="number" name="range-settings-min" id="minRange" value="1">
 </div>
 
-
+<div>
 </div>
    <label for="maxRangeAnswer">Enter a max range</label>
-   <input type="text" name="range-settings-max" id="rangeSettingsMax">
-   <button id="btnMaxRange"> Confirm </button> 
+   <input type="number" name="range-settings-max" id="maxRange" value="10">
 </div>
+
+<div>
+</div>
+   <label for="guessesAns">Enter max guesses </label>
+   <input type="number" name="guess-settings" id="maxGuesses" value="3">
+</div>
+<div>
+
   <div id="currentGuesses" style="color: rgb(0, 0, 0)"></div>
 
   <div id="errorMessage" style="color: red"></div> 
@@ -44,5 +44,6 @@
   <div id="userMessage" style="color: blue"></div> 
 
     <script type="module" src="/src/main.ts"></script>
+    </div>
   </body>
 </html>

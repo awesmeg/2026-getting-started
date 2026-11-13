@@ -2,7 +2,7 @@
 
 import { GuessingGame } from "./guessing-game";
 
-const btnMinRange = document.getElementById("btnMinRange");
+
 const btnRedo = document.getElementById("btnRestart");
 const btnAnswer = document.getElementById("btnAnswer");
 // check ans
@@ -16,8 +16,16 @@ const answerElement = document.getElementById(
   "userAnswer",
 ) as HTMLInputElement | null;
 
+const userMaxRange = document.getElementById(
+  "maxRange",
+) as HTMLInputElement | null;
+
 const userMinRange = document.getElementById(
-  "minRangeAnswer",
+  "minRange",
+) as HTMLInputElement | null;
+
+const userMaxGuesses = document.getElementById(
+  "maxGuesses",
 ) as HTMLInputElement | null;
 
 let maxGuess = 10;
@@ -55,14 +63,27 @@ function restartGame() {
   userMessageDiv!.innerText = `Restarted, answer was ${game.secret}.`;
   answerElement!.value = "";
   answerElement?.focus();
+  
+  let maxRange = getUserMaxRange()
+  let minRange = getUserMinRange()
 
-  game = new GuessingGame(maxGuess, maxGuessNumber);
+  let maxGuesses = getUserMaxGuesses()
+
+  if (minRange >= maxRange) {
+    errorDiv!.innerText = "Please enter a min range lower than max range."
+    console.log(minRange, maxRange)
+    return
+  }
+
+  game = new GuessingGame(maxRange, maxGuesses, minRange);
   currentGuessesDiv!.innerText = `you have ${game.remainingGuesses}/${game.maxGuesses} guesses left.`;
+  console.log (game)
 }
 
 btnAnswer?.addEventListener("click", handleAnswerClick);
 btnRedo?.addEventListener("click", restartGame);
-btnMinRange?.addEventListener("click", getUserRange);
+
+
 
 function getUserAnswer(): number | null {
   if (answerElement == null) {
@@ -80,18 +101,40 @@ function getUserAnswer(): number | null {
   return answer;
 }
 
-function getUserRange(): number | null {
-  if (userMinRange == null) {
-    return null;
-  }
 
+
+function getUserMinRange(): number {
+  if (userMinRange == null || userMinRange!.value == "") {
+    return 1;
+  }
+  
   let answer = Number(userMinRange.value);
+  
+  return Math.floor(answer);
+}
 
-  if (Number.isNaN(answer)) {
-    return null;
+
+
+function getUserMaxRange(): number {
+  if (userMaxRange == null || userMaxRange!.value == "") {
+    return 10;
   }
 
-  userMinRange.value = "";
-  userMinRange.focus();
-  return answer;
+  let answer = Number(userMaxRange.value);
+  
+  return Math.floor(answer);
 }
+
+
+function getUserMaxGuesses(): number {
+  if (userMaxGuesses == null || userMaxGuesses!.value == "") {
+    return 3;
+  }
+  
+  let answer = Number(userMaxGuesses.value);
+  
+  return Math.floor(answer);
+}
+
+
+

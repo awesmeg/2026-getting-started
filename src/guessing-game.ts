@@ -13,7 +13,8 @@ export class GuessingGame {
   playerWon: boolean;
   isGamerOver: boolean;
 
-  constructor(maxRange: number, numberOfGuesses: number) {
+  constructor(maxRange: number, numberOfGuesses: number, minRange: number = 1) {
+    this.minRange = minRange
     this.maxRange = maxRange;
     this.maxGuesses = numberOfGuesses;
     this.remainingGuesses = this.maxGuesses;
@@ -26,7 +27,8 @@ export class GuessingGame {
 
   private generateSecret(): number {
     let r = Math.random();
-    r = r * this.maxRange + this.minRange;
+    r = r * (this.maxRange - this.minRange);
+    r = r + this.minRange
     r = Math.floor(r);
     return r;
   }
@@ -80,7 +82,56 @@ export class GuessingGame {
   }
 
 
-  private currentGuesses() {
-    
+
+
+
+/*
+  min(answer: number | null): GuessResult {
+    let validationResult = this.validateMin(answer);
+    if (validationResult != null) {
+      return validationResult;
+    }
+    return this.checkMin(answer!);
   }
+
+    private validateMin(answer: number | null): GuessResult | null {
+    if (answer == null) {
+      return new GuessResult(true, "Please enter a number!");
+    }
+
+    if (answer < this.minRange || answer > this.maxRange) {
+      return new GuessResult(
+        true,
+        `Please enter a number between ${this.minRange} and ${this.maxRange}!`,
+      );
+    }
+
+    if (!Number.isInteger(answer)) {
+      return new GuessResult(true, "Please enter a whole number!");
+    }
+    
+    return null;
+  }
+  
+  private checkMin(answer: number): GuessResult {
+    this.remainingGuesses -= 1;
+    let message = "";
+    if (answer == this.secret) {
+      message = `you won! ${this.secret} was correct!`;
+      this.playerWon = true;
+      this.isGamerOver = true;
+    } else if (answer < this.secret) {
+      message = `${answer} is too low`;
+    } else {
+      message = `${answer} is too high`;
+    }
+
+    if (!this.playerWon && this.remainingGuesses == 0) {
+      // ll il ii l-
+      message = `you lost, ${this.secret} was the number`;
+      this.isGamerOver = true;
+    }
+    return new GuessResult(false, message);
+  }
+    */
 }
